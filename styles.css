@@ -60,8 +60,18 @@ html, body { background: var(--bg); color: var(--text); font-family: Inter, syst
 .section { padding: 36px 0; }
 
 /* KPIs */
-.kpi { display:flex; align-items:baseline; gap:8px; }
-.kpi b { font-size: 36px; background: linear-gradient(135deg, var(--navy-1), var(--blue-1)); -webkit-background-clip:text; background-clip:text; color: transparent; }
+.kpi {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;        /* было без отступа — добавим немного воздуха */
+  flex-wrap: wrap;           /* позволяет переносить подпись на новую строку на узких экранах */
+}
+
+.kpi b {
+  font-size: clamp(22px, 4vw, 30px);  /* было 36px — делаем адаптивным и поменьше */
+  line-height: 1.1;
+}
 
 /* Tabs */
 .tabs { display:flex; gap:8px; margin-bottom: 16px; flex-wrap:wrap; }
