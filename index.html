@@ -2,65 +2,148 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LAaS — LinkedIn as a Service</title>
-  <meta name="description" content="LAaS: сопровождаю поиск работы на LinkedIn — от стратегии и резюме до подачи заявок. Больше качественных откликов, меньше хаоса, экономия времени." />
-  <link rel="stylesheet" href="design.css">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --brand-a:#6B8E23;        /* olive accent */
+      --brand-b:#1E3A8A;        /* blue-navy main */
+      --ink:#0B0F19; --muted:#5B6472; --line:#E6E8EC; --bg:#fff;
+      --radius:16px; --shadow:0 8px 26px rgba(2,8,23,.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+    .wrap{max-width:1120px;margin:auto;padding:28px}
+    h1{font-size:clamp(34px,6vw,64px);line-height:1.05;margin:0 0 10px;font-weight:800;letter-spacing:-.02em}
+    h1 .buddy{font-size:clamp(42px,7.5vw,74px);font-weight:800;background:linear-gradient(135deg,var(--brand-a),var(--brand-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+    h2{font-size:clamp(20px,2.5vw,26px);margin:0 0 26px;font-weight:600;color:var(--muted)}
+    h3{font-size:20px;margin:0 0 6px;font-weight:800}
+    p{margin:0 0 8px;color:#2e3445}
+    .muted{color:var(--muted)}
+    a{text-decoration:none;color:inherit}
+
+    /* HERO: две колонки */
+    .hero{padding:36px 0}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
+    @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+    /* Кнопки */
+    .btn{display:inline-flex;align-items:center;gap:.6rem;border-radius:999px;padding:.9rem 1.2rem;font-weight:800}
+    .btn-grad{color:#fff;background:linear-gradient(135deg,var(--brand-a),var(--brand-b));box-shadow:0 10px 24px rgba(30,58,138,.22);transition:filter .25s ease,transform .25s ease,box-shadow .25s ease}
+    .btn-grad:hover{filter:saturate(1.05) brightness(1.03);transform:translateY(-2px);box-shadow:0 14px 28px rgba(30,58,138,.32)}
+    .btn-ghost{border:1px solid var(--line);color:#0f172a}
+    .btn-ghost:hover{background:#f7f8fb}
+
+    /* Метрики в hero (правый столбец) */
+    .metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .card{background:#fff;border:2px solid transparent;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);position:relative;overflow:visible;transition:box-shadow .3s ease, transform .3s ease}
+    .card::before{content:"";position:absolute;inset:-1px;border-radius:calc(var(--radius) + 0px);padding:2px;background:linear-gradient(135deg,var(--brand-a),var(--brand-b));opacity:.5;-webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;transition:opacity .3s ease}
+    .card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(30,58,138,.22)}
+    .card:hover::before{opacity:.9}
+    .metric{display:flex;gap:12px;align-items:center}
+    .metric .ico{width:26px;height:26px;flex:0 0 26px}
+    .metric .val{font-size:24px;font-weight:800;letter-spacing:-.02em;background:linear-gradient(135deg,var(--brand-a),var(--brand-b));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .metric .txt{font-size:13px;color:var(--muted)}
+
+    /* Разделители/секции */
+    .divider{height:1px;background:var(--line);margin:32px 0}
+    section{padding:20px 0}
+
+    /* Процесс (таймлайн-плитки) */
+    .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    @media (max-width:900px){.tiles{grid-template-columns:1fr}}
+    .badge{width:36px;height:36px;border-radius:999px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;margin-bottom:8px;background:linear-gradient(135deg,var(--brand-a),var(--brand-b))}
+
+    /* Прайс */
+    .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+    @media (max-width:1000px){.plans{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:560px){.plans{grid-template-columns:1fr}}
+    .price{font-size:28px;font-weight:800}
+    .hint{font-size:13px;color:var(--muted)}
+    .chip{display:inline-flex;align-items:center;gap:.5rem;border-radius:999px;padding:.38rem .75rem;color:#fff;font-size:12px;font-weight:800;background:linear-gradient(135deg,var(--brand-a),var(--brand-b))}
+    .text-linkedin{color:#0A66C2}
+    .label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+    .section-title{font-size:clamp(26px,3.5vw,40px);font-weight:800;letter-spacing:-.02em;margin:0 0 10px}
+    .section-sub{color:var(--muted);margin-bottom:14px}
+    /* SVG иконки — однотонные, аккуратные */
+    svg{stroke:#111827}
+  </style>
 </head>
-<body class="bg-white text-gray-900 antialiased">
-  <header class="border-b border-gray-200">
-    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
-      <a href="#top" class="font-semibold tracking-tight">LAaS</a>
-      <nav class="hidden md:flex gap-6 text-sm text-gray-700">
-        <a href="#process" class="hover:text-black">Процесс</a>
-        <a href="#prices" class="hover:text-black">Цены</a>
-        <a href="#pricing" class="hover:text-black">Пакеты</a>
-        <a href="#contact" class="hover:text-black">Контакты</a>
-      </nav>
-    </div>
-  </header>
+<body>
+  <div class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-grid">
+        <!-- Левый столбец -->
+        <div>
+          <h2>LAaS — LinkedIn as a Service</h2>
+          <h1><span class="buddy">Buddy</span> в поиске работы-мечты</h1>
+          <p class="muted" style="font-size:18px;line-height:1.45">Вы выбираете, кем хотите стать и где работать.<br>Я строю roadmap и веду по шагам.</p>
+          <div class="cta-row">
+            <a class="btn btn-grad" href="#contact">Записаться</a>
+            <a class="btn btn-ghost" href="#prices">Пакеты</a>
+          </div>
+        </div>
 
-  <main id="top" class="mx-auto max-w-6xl px-6">
-    <!-- HERO — Swiss minimal -->
-    <section class="py-16 md:py-24">
-      <div class="max-w-5xl mx-auto px-2 md:px-0 text-left">
-        <h1 class="font-extrabold tracking-tight leading-[1.05] text-5xl md:text-7xl">
-          LAaS — <span class="text-brand">LinkedIn</span> as a Service<br>
-          <span class="font-extrabold">Ваш buddy в поиске работы-мечты</span>
-        </h1>
-        <p class="mt-6 text-lg md:text-xl text-gray-700 max-w-3xl">
-          Вы выбираете, кем хотите стать и где работать.
-          Я строю roadmap и веду по шагам.
-      
-      </div>
-    </section>
-
-    <!-- OUTCOMES / METRICS -->
-    <section id="outcomes" class="py-16 border-t border-gray-200">
-      <div class="max-w-5xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-semibold">Что будет, когда мы начнём</h2>
-        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
-          <div class="card">
-            <div class="metric">5–10 ч/нед</div>
-            <div class="mt-2 text-sm text-gray-700">свободного времени</div>
-            <div class="mt-1 text-xs text-gray-500">на другие дела</div>
+        <!-- Правый столбец: метрики -->
+        <div class="metrics">
+          <div class="card metric">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle><path d="M12 7v6l3 3"></path>
+              </svg>
+            </div>
+            <div>
+              <div class="val">5–10 ч/нед</div>
+              <div class="txt">свободного времени</div>
+            </div>
           </div>
-          <div class="card">
-            <div class="metric">1% хаоса</div>
-            <div class="mt-2 text-sm text-gray-700">структура и регулярность</div>
+          <div class="card metric">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="21" y1="4" x2="14" y2="4"/><line x1="10" y1="4" x2="3" y2="4"/>
+                <line x1="21" y1="12" x2="12" y2="12"/><line x1="8" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="20" x2="16" y2="20"/><line x1="12" y1="20" x2="3" y2="20"/>
+                <circle cx="12" cy="4" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="16" cy="20" r="2"/>
+              </svg>
+            </div>
+            <div>
+              <div class="val">1% хаоса</div>
+              <div class="txt">структура и прозрачность</div>
+            </div>
           </div>
-          <div class="card">
-            <div class="metric">&gt;15% ответов</div>
-            <div class="mt-2 text-sm text-gray-700">живые отклики от компаний</div>
+          <div class="card metric">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 17 9 11 13 15 21 7"/><polyline points="14 7 21 7 21 14"/>
+              </svg>
+            </div>
+            <div>
+              <div class="val">&gt;15% ответов</div>
+              <div class="txt">живые отклики от компаний</div>
+            </div>
           </div>
-          <div class="card">
-            <div class="metric">×3 заявок</div>
-            <div class="mt-2 text-sm text-gray-700">в целевые компании</div>
+          <div class="card metric">
+            <div class="ico">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/>
+                <path d="M22 12h-2M4 12H2M12 2v2M12 20v2"/>
+              </svg>
+            </div>
+            <div>
+              <div class="val">×2 заявок</div>
+              <div class="txt">в целевые компании</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
+    <div class="divider"></div>
 
     <!-- PAIN POINTS -->
     <section id="pain" class="py-16 border-t border-gray-200">
@@ -275,134 +358,6 @@
 </html>
 
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LAaS — LinkedIn as a Service</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="design.css">
-</head>
-<body class="bg-white text-gray-900 antialiased">
-
-  <!-- Hero -->
-  <section id="top" class="container mx-auto px-6 py-20 text-center">
-    <h1 class="font-extrabold tracking-tight leading-[1.05] text-5xl md:text-7xl">
-      LAaS — <span class="text-brand">LinkedIn</span> as a Service<br>
-      <span class="buddy">Ваш buddy в поиске работы-мечты</span>
-    </h1>
-    <p class="mt-6 text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
-      Вы выбираете, кем хотите стать и где работать.<br>
-      Я строю roadmap и веду по шагам.
-    </p>
-    <a href="#contact" class="mt-10 inline-block px-6 py-3 rounded-full font-medium btn-gradient">Узнать больше</a>
-  </section>
-
-  <!-- Outcomes / Metrics -->
-  <section id="outcomes" class="py-16 border-t border-gray-200">
-    <h2 class="text-3xl md:text-4xl font-semibold text-center mb-10">Что будет, когда мы начнём</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-      <div class="card p-6 text-center">
-        <i data-lucide="clock" class="mx-auto mb-2 text-brand"></i>
-        <div class="metric">5–10 ч/нед</div>
-        <p class="text-sm text-muted">свободного времени</p>
-      </div>
-      <div class="card p-6 text-center">
-        <i data-lucide="sliders" class="mx-auto mb-2 text-brand"></i>
-        <div class="metric">1% хаоса</div>
-        <p class="text-sm text-muted">структура и процесс</p>
-      </div>
-      <div class="card p-6 text-center">
-        <i data-lucide="line-chart" class="mx-auto mb-2 text-brand"></i>
-        <div class="metric">&gt;15% ответов</div>
-        <p class="text-sm text-muted">живые отклики от компаний</p>
-      </div>
-      <div class="card p-6 text-center">
-        <i data-lucide="target" class="mx-auto mb-2 text-brand"></i>
-        <div class="metric">×2 заявок</div>
-        <p class="text-sm text-muted">в целевые компании</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Process Timeline -->
-  <section class="py-16 border-t border-gray-200">
-    <h2 class="text-3xl md:text-4xl font-semibold text-center mb-10">Процесс работы</h2>
-    <div class="flex justify-center items-center space-x-6">
-      <div class="text-center">
-        <div class="w-14 h-14 mx-auto rounded-full flex items-center justify-center bg-[#7C3AED]/10">
-          <i data-lucide="search" class="text-[#7C3AED]"></i>
-        </div>
-        <p class="mt-2 font-semibold">Setup Baseline</p>
-      </div>
-      <div class="w-10 h-0.5 bg-gray-300"></div>
-      <div class="text-center">
-        <div class="w-14 h-14 mx-auto rounded-full flex items-center justify-center bg-[#0A66C2]/10">
-          <i data-lucide="settings" class="text-[#0A66C2]"></i>
-        </div>
-        <p class="mt-2 font-semibold">Support Baseline</p>
-      </div>
-      <div class="w-10 h-0.5 bg-gray-300"></div>
-      <div class="text-center">
-        <div class="w-14 h-14 mx-auto rounded-full flex items-center justify-center bg-[#7C3AED]/10">
-          <i data-lucide="wrench" class="text-[#7C3AED]"></i>
-        </div>
-        <p class="mt-2 font-semibold">Features & Ad-hoc</p>
-      </div>
-      <div class="w-10 h-0.5 bg-gray-300"></div>
-      <div class="text-center">
-        <div class="w-14 h-14 mx-auto rounded-full flex items-center justify-center bg-[#0A66C2]/10">
-          <i data-lucide="check-circle" class="text-[#0A66C2]"></i>
-        </div>
-        <p class="mt-2 font-semibold">Результат</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing Cards -->
-  <section id="prices" class="py-16 border-t border-gray-200">
-    <h2 class="text-3xl md:text-4xl font-semibold text-center mb-10">Тарифы</h2>
-    <div class="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-      <div class="card p-6 text-center">
-        <i data-lucide="file-text" class="mx-auto mb-2 text-brand"></i>
-        <h3 class="font-semibold text-lg">Lite</h3>
-        <div class="mt-2 text-2xl font-bold">$800</div>
-        <p class="text-sm text-muted">Базовый пакет</p>
-        <a href="#contact" class="mt-4 inline-block px-4 py-2 btn-gradient">Выбрать</a>
-      </div>
-      <div class="card p-6 text-center">
-        <i data-lucide="users" class="mx-auto mb-2 text-brand"></i>
-        <h3 class="font-semibold text-lg">Pro</h3>
-        <div class="mt-2 text-2xl font-bold">$1200</div>
-        <p class="mt-2 text-sm text-muted">Для тех, кто хочет работать в команде</p>
-        <a href="#contact" class="mt-4 inline-block px-4 py-2 btn-gradient">Выбрать</a>
-      </div>
-      <div class="card p-6 text-center">
-        <i data-lucide="rocket" class="mx-auto mb-2 text-brand"></i>
-        <h3 class="font-semibold text-lg">Premium</h3>
-        <div class="mt-2 text-2xl font-bold">$1600</div>
-        <p class="text-sm text-muted">Максимальное сопровождение</p>
-        <a href="#contact" class="mt-4 inline-block px-4 py-2 btn-gradient">Выбрать</a>
-      </div>
-      <div class="card p-6 text-center">
-        <i data-lucide="crown" class="mx-auto mb-2 text-brand"></i>
-        <h3 class="font-semibold text-lg">Premium+</h3>
-        <div class="mt-2 text-2xl font-bold">По запросу</div>
-        <p class="text-sm text-muted">Полная делегация</p>
-        <a href="#contact" class="mt-4 inline-block px-4 py-2 btn-gradient">Выбрать</a>
-      </div>
-    </div>
-  </section>
-
-  <footer class="py-10 text-center text-sm text-gray-500 border-t border-gray-200">
-    © 2025 LAaS. Все права защищены.
-  </footer>
-
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>
 
